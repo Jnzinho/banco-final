@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 import ReactLoading from 'react-loading';
 
 function App() {
-  const [responseText, setResponseText] = useState('');
+  const [responseText, setResponseText] = useState(
+    'Faça uma requisição para ver o resultado'
+  );
   const [clienteId, setClienteId] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +17,7 @@ function App() {
       .get('http://localhost:3003/amigos')
       .then((response) => {
         setLoading(false);
-        setResponseText(JSON.stringify(response.data));
+        setResponseText(JSON.stringify(response.data, null, 2));
       })
       .catch((error) => {
         setLoading(false);
@@ -34,7 +36,7 @@ function App() {
       .then((response) => {
         setLoading(false);
         console.log(response.data);
-        setResponseText(JSON.stringify(response.data));
+        setResponseText(JSON.stringify(response.data, null, 2));
       })
       .catch((error) => {
         setLoading(false);
@@ -53,7 +55,7 @@ function App() {
       .then((response) => {
         setLoading(false);
         console.log(response.data);
-        setResponseText(JSON.stringify(response.data));
+        setResponseText(JSON.stringify(response.data, null, 2));
       })
       .catch((error) => {
         setLoading(false);
@@ -75,7 +77,7 @@ function App() {
           setResponseText('Cliente não encontrado');
           return;
         }
-        setResponseText(JSON.stringify(response.data));
+        setResponseText(JSON.stringify(response.data, null, 2));
       })
       .then(() => {
         setClienteId('');
@@ -146,8 +148,8 @@ function App() {
       </div>
 
       <div
-        className="flex justify-center align-middle"
-        style={{ width: '100%' }}
+        className="flex justify-center align-middle container mx-auto border border-gray-300 rounded-md p-4 mt-12"
+        style={{ width: '30%' }}
       >
         {loading ? (
           <ReactLoading
@@ -158,14 +160,7 @@ function App() {
             className="mx-auto my-6"
           />
         ) : (
-          <textarea
-            value={responseText}
-            disabled
-            className="description bg-gray-100 mt-6 sec p-3 h-60 border border-gray-300 outline-none"
-            style={{ width: '50%' }}
-            spellCheck="false"
-            placeholder="Resultados da requisição..."
-          ></textarea>
+          <pre>{responseText}</pre>
         )}
       </div>
     </div>
